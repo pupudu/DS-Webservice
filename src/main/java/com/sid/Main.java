@@ -93,7 +93,7 @@ public class Main {
     //Change this count everytime you run the project :)
     //
     //#############################################################
-    private int count = 2;
+    private int count = 3;
 
     private String MY_IP = "localhost";
     private int MY_PORT;
@@ -115,7 +115,7 @@ public class Main {
 
     public Main() {
         MY_PORT = Integer.parseInt("300" + count);
-        MY_USERNAME = "Shan123" + count;
+        MY_USERNAME = "Shan1234" + count;
     }
 
     @GET
@@ -406,7 +406,7 @@ public class Main {
     }
 
     private void sendPost(String ip, String port, String path, String message) throws Exception {
-        String url = ip + ":" + port + "/" + path;
+        String url = ip + ":" + port + "/RESTfulExample/main/" + path;
         URL obj = new URL(url);
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
         con.setRequestMethod("POST");
