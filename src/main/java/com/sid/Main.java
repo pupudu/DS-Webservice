@@ -148,7 +148,7 @@ public class Main {
                     if (n > 0) {
 
                         for (int i = 0; i < n; i++) {
-                            node = new Node(ip/*temp[3 * (i + 1)]*/, Integer.parseInt(temp[3 * (i + 1) + 1]), temp[3 * (i + 1) + 2]);
+                            node = new Node(temp[3 * (i + 1)], Integer.parseInt(temp[3 * (i + 1) + 1]), temp[3 * (i + 1) + 2]);
                             routingTable.add(node);
                             System.out.println("Node: " + node);
                         }
@@ -321,7 +321,7 @@ public class Main {
                     }
                     break;
                 default:
-                    System.out.println("xx");
+                    System.out.println("Unp Data: "+ msg);
                     break;
             }
         } catch (Exception ex) {
@@ -392,7 +392,7 @@ public class Main {
     @Path("/search/")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    private void processQueriesService(CallBean call) {
+    public Response process(CallBean call) {
 
         String name = call.getMessage();
         System.out.println(name + " entered");
@@ -409,7 +409,7 @@ public class Main {
         } catch (Exception ex) {
             System.out.println("ExQ: " + ex);
         }
-
+        return Response.ok(call).type(MediaType.APPLICATION_JSON_TYPE).build();
     }
 
     private void sendPost(String ip, String port, String path, String message) throws Exception {
