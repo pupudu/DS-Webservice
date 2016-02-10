@@ -18,6 +18,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -115,7 +116,7 @@ public class Main {
 
     public Main() {
         MY_PORT = Integer.parseInt("300" + count);
-        MY_USERNAME = "Shan1234" + count;
+        MY_USERNAME = "Pubuduo" + count;
     }
 
     @GET
@@ -339,15 +340,19 @@ public class Main {
 
     private void joinDistributedSystem() {
         System.out.println("joinDistributedSystem()");
+        System.out.println(routingTable.size());
         try {
             String message = "JOIN " + MY_IP + " " + MY_PORT;
             message = "00" + (message.length() + 5) + " " + message;
-
+            System.out.println("message: "+message);
             for (Node node : routingTable) {
+                System.out.println(node);
                 String address = node.getIp();
+                System.out.println("address: "+address);
                 String port = Integer.toString(node.getPort());
-                sendPost(address, port, "call", message);
-                System.out.println("message sent");
+                System.out.println("port: "+ port);
+                //sendPost(address, port, "call", message);
+                System.out.println("message sent:"+address+" | "+ port + " | " + message );
             }
         } catch (Exception e) {
             System.out.println("ExJ: " + e);
@@ -406,7 +411,7 @@ public class Main {
     }
 
     private void sendPost(String ip, String port, String path, String message) throws Exception {
-        String url = ip + ":" + port + "/RESTfulExample/main/" + path;
+        String url = "http://" + ip + ":" + port + "/RESTfulExample/main/" + path;
         URL obj = new URL(url);
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
         con.setRequestMethod("POST");
@@ -438,5 +443,26 @@ public class Main {
         }
         in.close();
         System.out.println(response.toString());
+    }
+    
+    
+    
+    @GET
+    @Path("/{param}")
+    public Response getMsg(@PathParam("param") String msg) {
+
+            String output = "Jersey say : " + msg;
+
+            return Response.status(200).entity(output).build();
+
+    }
+
+    @POST
+    @Path("/test/")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response setPageMetaData(CallBean data) {
+            //return Response.status(200).entity("dodan").build();
+        return Response.ok(data).type(MediaType.APPLICATION_JSON_TYPE).build();
     }
 }
