@@ -122,7 +122,8 @@ public class Main {
     @GET
     @Path("/register/{param}")
     public Response start(@PathParam("param") String ip) {
-
+        
+        MY_IP = ip;
         movieList = new LinkedList<>();
         loadMovies();
 
@@ -216,7 +217,7 @@ public class Main {
 
     private boolean createConnection() {
         try {
-            MY_IP = Inet4Address.getLocalHost().getHostAddress();
+           // MY_IP = Inet4Address.getLocalHost().getHostAddress();
             //System.out.println("My IP: " + MY_IP);
 
             clientSocket = new Socket(SERVER_HOST, SERVER_PORT);
@@ -247,7 +248,7 @@ public class Main {
     @Path("/call/")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    private void createUDPListener(CallBean call) {
+    public Response UDPListen(CallBean call) {
 
         System.out.println("Creating listener on port: " + MY_PORT);
         try {
@@ -326,6 +327,7 @@ public class Main {
         } catch (Exception ex) {
             System.out.println("ExUDP: " + ex);
         }
+        return Response.ok(call).type(MediaType.APPLICATION_JSON_TYPE).build();
     }
 
     private boolean processJoinMsg(String ip, String port) {
