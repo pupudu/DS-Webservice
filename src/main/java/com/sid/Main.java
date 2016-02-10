@@ -120,8 +120,8 @@ public class Main {
     }
 
     @GET
-    @Path("/register/")
-    public Response start() {
+    @Path("/register/{param}")
+    public Response start(@PathParam("param") String ip) {
 
         movieList = new LinkedList<>();
         loadMovies();
@@ -147,7 +147,7 @@ public class Main {
                     if (n > 0) {
 
                         for (int i = 0; i < n; i++) {
-                            node = new Node(temp[3 * (i + 1)], Integer.parseInt(temp[3 * (i + 1) + 1]), temp[3 * (i + 1) + 2]);
+                            node = new Node(ip/*temp[3 * (i + 1)]*/, Integer.parseInt(temp[3 * (i + 1) + 1]), temp[3 * (i + 1) + 2]);
                             routingTable.add(node);
                             System.out.println("Node: " + node);
                         }
@@ -351,7 +351,7 @@ public class Main {
                 System.out.println("address: "+address);
                 String port = Integer.toString(node.getPort());
                 System.out.println("port: "+ port);
-                //sendPost(address, port, "call", message);
+                sendPost(address, port, "call", message);
                 System.out.println("message sent:"+address+" | "+ port + " | " + message );
             }
         } catch (Exception e) {
@@ -411,7 +411,7 @@ public class Main {
     }
 
     private void sendPost(String ip, String port, String path, String message) throws Exception {
-        String url = "http://" + ip + ":" + port + "/RESTfulExample/main/" + path;
+        String url = "http://" + ip + ":" + "8080" + "/RESTfulExample/main/" + path;
         URL obj = new URL(url);
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
         con.setRequestMethod("POST");
