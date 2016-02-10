@@ -215,7 +215,7 @@ public class Main {
 
     private boolean createConnection() {
         try {
-            //MY_IP = Inet4Address.getLocalHost().getHostAddress();
+            MY_IP = Inet4Address.getLocalHost().getHostAddress();
             //System.out.println("My IP: " + MY_IP);
 
             clientSocket = new Socket(SERVER_HOST, SERVER_PORT);
